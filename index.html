@@ -3,61 +3,127 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LeetCode Streak Reminder</title>
+  <title>Leet Awaken — Never Break Your Streak</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(15, 23, 42, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --lc-amber: #ffa116;
+      --lc-amber-glow: rgba(255, 161, 22, 0.25);
+      --discord: #5865f2;
+      --discord-hover: #4752c4;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
     }
 
     body {
-      background-color: #0f172a;
-      color: #f8fafc;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(255, 161, 22, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(88, 101, 242, 0.15) 0px, transparent 50%);
+      color: var(--text-main);
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Ambient background grid */
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
     }
 
     .card {
-      background-color: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 16px;
-      padding: 2.5rem 2rem;
-      max-width: 420px;
+      position: relative;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 2.75rem 2.25rem;
+      max-width: 440px;
       width: 100%;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
       text-align: center;
+      z-index: 1;
+    }
+
+    .brand-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .flame-icon {
+      width: 28px;
+      height: 28px;
+      fill: var(--lc-amber);
+      filter: drop-shadow(0 0 12px var(--lc-amber-glow));
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .badge {
-      display: inline-block;
-      background-color: #3b82f620;
-      color: #60a5fa;
-      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 161, 22, 0.1);
+      border: 1px solid rgba(255, 161, 22, 0.25);
+      color: var(--lc-amber);
+      font-size: 0.75rem;
       font-weight: 600;
-      padding: 0.35rem 0.75rem;
+      padding: 0.35rem 0.85rem;
       border-radius: 9999px;
-      margin-bottom: 1rem;
-      letter-spacing: 0.05em;
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.03em;
       text-transform: uppercase;
     }
 
-    h1 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: #ffffff;
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--lc-amber);
+      box-shadow: 0 0 8px var(--lc-amber);
     }
 
     p.subtitle {
-      color: #94a3b8;
-      font-size: 0.95rem;
-      line-height: 1.5;
-      margin-bottom: 1.75rem;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
     }
 
     .input-group {
@@ -67,59 +133,74 @@
 
     label {
       display: block;
-      font-size: 0.85rem;
-      font-weight: 500;
+      font-size: 0.82rem;
+      font-weight: 600;
       margin-bottom: 0.5rem;
-      color: #cbd5e1;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .input-wrapper {
+      position: relative;
     }
 
     input[type="text"] {
       width: 100%;
-      padding: 0.85rem 1rem;
-      border-radius: 10px;
-      border: 1px solid #475569;
-      background-color: #0f172a;
-      color: #f8fafc;
+      padding: 0.95rem 1.15rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(10, 16, 29, 0.85);
+      color: var(--text-main);
       font-size: 1rem;
+      font-family: 'JetBrains Mono', monospace;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: all 0.2s ease;
     }
 
     input[type="text"]:focus {
-      border-color: #5865f2;
-      box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.25);
+      border-color: var(--lc-amber);
+      box-shadow: 0 0 0 3px var(--lc-amber-glow);
+    }
+
+    input[type="text"]::placeholder {
+      color: #475569;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     .error-msg {
       color: #f87171;
-      font-size: 0.85rem;
-      margin-top: 0.4rem;
+      font-size: 0.82rem;
+      margin-top: 0.45rem;
       display: none;
     }
 
     .btn-discord {
       width: 100%;
-      background-color: #5865f2;
+      background-color: var(--discord);
       color: #ffffff;
       border: none;
-      border-radius: 10px;
-      padding: 0.9rem 1.2rem;
+      border-radius: 12px;
+      padding: 0.95rem 1.25rem;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.65rem;
-      transition: background-color 0.2s, transform 0.1s;
+      gap: 0.75rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 16px rgba(88, 101, 242, 0.35);
     }
 
     .btn-discord:hover {
-      background-color: #4752c4;
+      background-color: var(--discord-hover);
+      box-shadow: 0 6px 20px rgba(88, 101, 242, 0.45);
+      transform: translateY(-1px);
     }
 
     .btn-discord:active {
-      transform: scale(0.98);
+      transform: translateY(0);
     }
 
     .btn-discord svg {
@@ -129,24 +210,34 @@
     }
 
     .footer-note {
-      margin-top: 1.25rem;
+      margin-top: 1.4rem;
       font-size: 0.78rem;
       color: #64748b;
-      line-height: 1.4;
+      line-height: 1.5;
     }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <span class="badge">Automated Sentinel</span>
-    <h1>LeetCode Daily Reminder</h1>
-    <p class="subtitle">Get notified in your Discord channel every day at 9:00 PM IST if you haven't logged an accepted submission.</p>
+    <div class="brand-header">
+      <svg class="flame-icon" viewBox="0 0 24 24">
+        <path d="M12 23c-4.97 0-9-4.03-9-9 0-3.8 2.37-7.05 5.73-8.35.5-.19.98.24.91.77-.38 2.87.89 4.58 2.36 4.58 1.47 0 2.5-1.5 2-4.5-.11-.66.62-1.15 1.17-.79C18.23 8.75 21 12.06 21 16c0 3.87-4.03 7-9 7z"/>
+      </svg>
+      <h1 class="title">Leet Awaken</h1>
+    </div>
+
+
+    <p class="subtitle">
+       Get an alert in your private Discord channel every night at <strong>9:00 PM IST</strong> if no accepted submission is recorded.
+    </p>
 
     <div class="input-group">
-      <label for="leetcodeUsername">LeetCode Username</label>
-      <input type="text" id="leetcodeUsername" placeholder="e.g. tour_de_force" autocomplete="off" />
-      <div id="errorText" class="error-msg">Please enter a valid LeetCode username.</div>
+      <label for="leetcodeUsername">LeetCode Handle</label>
+      <div class="input-wrapper">
+        <input type="text" id="leetcodeUsername" placeholder="e.g. tour_de_force" spellcheck="false" autocomplete="off" />
+      </div>
+      <div id="errorText" class="error-msg">Please provide your LeetCode username.</div>
     </div>
 
     <button id="discordBtn" class="btn-discord">
@@ -156,7 +247,9 @@
       Continue with Discord
     </button>
 
-    <p class="footer-note">Discord will ask you to pick the server and channel where alerts should arrive.</p>
+    <p class="footer-note">
+      Discord will prompt you to select the server and channel for your reminders.
+    </p>
   </div>
 
   <script>
@@ -177,8 +270,9 @@
       }
 
       errorText.style.display = "none";
-      btn.innerText = "Redirecting...";
+      btn.innerHTML = `<span>Connecting...</span>`;
       btn.style.pointerEvents = "none";
+      btn.style.opacity = "0.8";
 
       const authUrl = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&integration_type=0&scope=webhook.incoming+identify&state=${encodeURIComponent(username)}`;
 
