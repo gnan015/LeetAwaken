@@ -231,7 +231,7 @@
   <script>
     const DISCORD_CLIENT_ID = "1567762977849876490";
     const DISCORD_REDIRECT = encodeURIComponent("https://my-n8n-app-jwks.onrender.com/webhook/discord-callback");
-    const TELEGRAM_BOT_USERNAME = "REPLACE_WITH_YOUR_BOT_USERNAME"; // e.g. LeetAwakenBot (without @)
+    const TELEGRAM_BOT_USERNAME = "LeetAwakenBot";
 
     const input = document.getElementById("leetcodeUsername");
     const timeSelect = document.getElementById("reminderTime");
@@ -253,7 +253,6 @@
       const username = validate();
       if (!username) return;
       const [istHour, utcHour] = timeSelect.value.split('_');
-      // Pack username and time into state
       const statePayload = `${username}_${istHour}_${utcHour}`;
       const authUrl = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&response_type=code&redirect_uri=${DISCORD_REDIRECT}&integration_type=0&scope=webhook.incoming+identify&state=${encodeURIComponent(statePayload)}`;
       window.location.href = authUrl;
@@ -264,8 +263,7 @@
       const username = validate();
       if (!username) return;
       const [istHour, utcHour] = timeSelect.value.split('_');
-      // Deep link to Telegram: /start <payload>
-      const tgUrl = `https://t.me/${LeetAwakenBot}?start=${encodeURIComponent(username + '_' + istHour + '_' + utcHour)}`;
+      const tgUrl = `https://t.me/${TELEGRAM_BOT_USERNAME}?start=${encodeURIComponent(username + '_' + istHour + '_' + utcHour)}`;
       window.location.href = tgUrl;
     });
   </script>
