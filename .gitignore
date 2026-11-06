@@ -1,0 +1,18 @@
+# Environment & secrets
+.env
+.env.*
+
+# Local n8n workflow exports containing API credentials or secrets
+*.json
+workflows/
+n8n-workflows/
+
+# Logs & OS artifacts
+*.log
+.DS_Store
+Thumbs.db
+
+
+# Ignore specific workflow JSON files
+Discord_Registration_Callback.json
+LeetCode_Streak_Reminder.json
