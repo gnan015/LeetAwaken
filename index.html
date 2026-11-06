@@ -263,7 +263,7 @@
       const username = validate();
       if (!username) return;
       const [istHour, utcHour] = timeSelect.value.split('_');
-      const tgUrl = `https://t.me/${TELEGRAM_BOT_USERNAME}?start=${encodeURIComponent(username + '_' + istHour + '_' + utcHour)}`;
+      const tgUrl = `https://t.me/${TELEGRAM_BOT_USERNAME}?start=${encodeURIComponent(username + '_' + istHour + '_' + utcHour)}`;     
       window.location.href = tgUrl;
     });
   </script>
